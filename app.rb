@@ -2,7 +2,7 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'sinatra/activerecord'
  
-db = URI.parse('postgres://weightsnap:d39oUfaie@localhost/weightsnap')
+db = URI.parse(ENV['DATABASE_URL'] || 'postgres://localhost/weightsnap')
 
 ActiveRecord::Base.establish_connection(
   :adapter  => db.scheme == 'postgres' ? 'postgresql' : db.scheme,
