@@ -1,5 +1,7 @@
 create table weights (
-    id integer primary key,
-    weight real,
-    date text
+    id SERIAL primary key,
+    weight NUMERIC(4, 1) not null,
+    date timestamptz not null
 );
+
+

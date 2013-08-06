@@ -1,8 +1,8 @@
-require 'sinatra'
+require 'sinatra' 
 require 'sinatra/reloader'
-require 'active_record'
+require 'sinatra/activerecord'
  
-db = URI.parse('postgres://localhost/weights')
+db = URI.parse('postgres://weightsnap:d39oUfaie@localhost/weightsnap')
 
 ActiveRecord::Base.establish_connection(
   :adapter  => db.scheme == 'postgres' ? 'postgresql' : db.scheme,
@@ -28,7 +28,7 @@ class Weight < ActiveRecord::Base
 end
  
 get '/' do
-    @weights = Weight.order("id desc").load
+    @weights = Weight.order("id desc").to_a
     erb :index
 end
  

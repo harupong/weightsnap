@@ -31,7 +31,7 @@
             <div class="span2">
             <label for="weight">Weight(kg): </label>
             <select id="weight" class="form-control" name="weight">
-            <% value = @weights.first.weight %>
+            <% @weights.empty? ? value = 55 : value = @weights.first.weight %>
             
                 <% minus = (value - 1...value).step(0.1).to_a %>
                 <% minus.each do |num| %>
@@ -45,16 +45,13 @@
                 <% plus.each do |num| %>
                 <option value="<%= num %>"><%= num %></option>
                 <% end %>
-                
+		                
             </select>
             <input type="submit" value="post!">
             </div>
         </form>
         </div>
     </div>
-    <%= @weights.first.weight %>
-    
-    
 
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
