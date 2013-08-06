@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <title>WeightSnap</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="span6">
+        <h1>WeightSnap</h1>
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr><th>Date</th><th>Weight (kg)</th></tr>
+            </thead>
+            <tbody>
+                <% @weights.each do |measurement| %>
+                <tr data-id="<%= measurement.id %>">
+                    <td><%= measurement.date %></td>
+                    <td><%= h measurement.weight %></td>
+                    <td><span class="deleteCmd" style="cursor:pointer;color:blue">[X]</span></td>
+                </tr>
+                <% end %>
+            </tbody>
+        </table>
+        </div>
+        <div class="span6">
+        <h2>Add New</h2>
+        <form method="post" action="/new">
+            <div class="span2">
+            <label for="weight">Weight(kg): </label>
+            <select id="weight" class="form-control" name="weight">
+            <% value = @weights.first.weight %>
+            
+                <% minus = (value - 1...value).step(0.1).to_a %>
+                <% minus.each do |num| %>
+                <option value="<%= num %>"><%= num %></option>
+                <% end %>
+                
+                <option value="<%= value %>" selected><%= value %></option>
+                
+                <% plus = (value ...value + 1).step(0.1).to_a %>
+                <% plus.shift %>
+                <% plus.each do |num| %>
+                <option value="<%= num %>"><%= num %></option>
+                <% end %>
+                
+            </select>
+            <input type="submit" value="post!">
+            </div>
+        </form>
+        </div>
+    </div>
+    <%= @weights.first.weight %>
+    
+    
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $('.deleteCmd').click(function() {
+            var el = $(this).parent().parent();
+            if (confirm('Deleting!! are you sure?')) {
+                $.post('/delete', {
+                    id: el.data('id')
+                }, function() {
+                    el.fadeOut(800);
+                });
+            }
+        })
+    </script>
+</body>
+</html>
